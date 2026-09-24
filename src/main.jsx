@@ -2,8 +2,10 @@ import React,{useEffect,useMemo,useState} from 'react';import{createRoot}from're
 const pages={HOME:'101',MUSIC:'102',LIVE:'103',EPK:'104',CONTACT:'105'};
 const releases=[{title:'UNDER THE WATER',type:'Single',year:'2026',art:'UW',link:'https://velvetbandglasgow.bandcamp.com/album/under-the-water'}];
 const gigs=[['01 OCT',"Nice 'n' Sleazy's",'GLASGOW','https://www.eventbrite.ca/e/thomas-duxbury-eyes-of-home-velvet-glasgow-nice-n-sleazy-tickets-1994096886467']];
-function App(){const[page,setPage]=useState('HOME');const[time,setTime]=useState(new Date());useEffect(()=>{const i=setInterval(()=>setTime(new Date()),1000);return()=>clearInterval(i)},[]);
-const goto=p=>setPage(p);const pageNo=pages[page];const day=time.toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});const clock=time.toLocaleTimeString('en-GB',{hour12:false});
+function pathToPage(path){const p=path.replace(/\/$/,'')||'/';return p==='/'?'HOME':p==='/music'?'MUSIC':p==='/live'?'LIVE':p==='/epk'?'EPK':p==='/contact'?'CONTACT':'HOME'}
+function pageToPath(p){return p==='HOME'?'/' : `/${p.toLowerCase()}`}
+function App(){const[page,setPage]=useState(()=>pathToPage(window.location.pathname));const[time,setTime]=useState(new Date());useEffect(()=>{const onPop=()=>setPage(pathToPage(window.location.pathname));window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop)},[]);useEffect(()=>{const i=setInterval(()=>setTime(new Date()),1000);return()=>clearInterval(i)},[]);
+const goto=p=>{const path=pageToPath(p);if(window.location.pathname!==path)window.history.pushState({},'',path);setPage(p)};const pageNo=pages[page];const day=time.toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});const clock=time.toLocaleTimeString('en-GB',{hour12:false});
 return <div className="crt"><header><div className="topline"><span>100</span><span>VELVET 100</span><span>{day}</span><strong>{clock}</strong><span className="grow"/><span>GLASGOW</span><b>16°C</b><span>☀</span></div><div className="head"><div className="logo">VELVET</div><nav>{Object.entries(pages).map(([k,n])=><button key={k} className={page===k?'active':''} onClick={()=>goto(k)}><i>{n}</i> {k}</button>)}</nav></div></header>
 <main>
 {page==='HOME'&&<Home goto={goto}/>}
@@ -12,7 +14,7 @@ return <div className="crt"><header><div className="topline"><span>100</span><sp
 {page==='EPK'&&<EPK/>}
 {page==='CONTACT'&&<Contact/>}
 </main>
-<footer><span>VELVET</span><span>:::</span><span>COME HOME — OUT NOW</span><span>:::</span><span>GLASGOW</span><span>:::</span><span>MUSIC</span><span>:::</span><span>LIVE</span><span>:::</span><span>CONTACT</span><span>:::</span><span>VELVET</span></footer>
+<footer><span>VELVET</span><span>:::</span><span>UNDER THE WATER — OUT NOW</span><span>:::</span><span>GLASGOW</span><span>:::</span><span>MUSIC</span><span>:::</span><span>LIVE</span><span>:::</span><span>CONTACT</span><span>:::</span><span>VELVET</span></footer>
 </div>}
 function Bar({no,title,children}){return <section><div className="bar"><span>{no} {title}</span><span>1/1</span></div>{children}</section>}
 function Home({goto}){return <div className="single homePage"><Bar no="101" title="HOME"><div className="hero"><div className="halftone"><div className="photoPlaceholder">VELVET</div></div><div className="heroText"><small>VELVET</small><h1>UNDER THE WATER</h1><h2>OUT NOW</h2><p>NEW MUSIC FROM GLASGOW</p></div></div><div className="listen"><div className="cover">UW</div><div><strong>UNDER THE WATER</strong><small>Velvet · Single · 2026</small><div className="track">▶ <span></span></div></div><div className="services"><a href="https://open.spotify.com/artist/45dG1NWjvFA9SkPLICjGr8?si=TgCGkMzGTTGLDGyVBn7E4w&utm_source=copy-link" target="_blank">◉ SPOTIFY</a><a href="https://music.apple.com/gb/artist/velvet/657341158" target="_blank">♫ APPLE MUSIC</a><a href="https://velvetbandglasgow.bandcamp.com/album/under-the-water" target="_blank">bc BANDCAMP</a></div></div><div className="socials"><a href="https://www.instagram.com/velvetgla/" target="_blank">◎ INSTAGRAM</a><a href="https://www.tiktok.com/@velvetgla" target="_blank">♪ TIKTOK</a><a href="https://www.facebook.com/share/19bMxvLLCw/" target="_blank">● FACEBOOK</a><a href="https://x.com/velvetbandgla" target="_blank">𝕏 X</a></div></Bar></div>}
