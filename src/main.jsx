@@ -20,7 +20,7 @@ function App(){
   const goto=p=>{const path=pages[p];if(window.location.pathname!==path)window.history.pushState({},'',path);setPage(p);window.scrollTo({top:0,behavior:'smooth'})};
   return <div className="site">
     <header className="siteHeader">
-      <button className="wordmark" onClick={()=>goto('HOME')} aria-label="Velvet home">VELVET</button>
+      <button className="wordmark" onClick={()=>goto('HOME')} aria-label="Velvet home"><span>VELVET</span></button>
       <nav className="siteNav" aria-label="Main navigation">
         {Object.keys(pages).map(k=><button key={k} className={page===k?'active':''} onClick={()=>goto(k)}>{k==='EPK'?'PRESS':k}</button>)}
       </nav>
@@ -52,7 +52,7 @@ function Home({goto}){
       <img src="/velvet-home.jpg" alt="Velvet" className="homeHeroImage"/>
       <div className="heroOverlay">
         <p className="eyebrow">GLASGOW · FIVE-PIECE</p>
-        <h1>VELVET</h1>
+        <h1 className="heroLogo">VELVET</h1>
         <p className="heroCaption">UNDER THE WATER — OUT NOW</p>
       </div>
     </section>
@@ -100,11 +100,6 @@ function Home({goto}){
         <a className="textLink" href={gigs[0][3]} target="_blank" rel="noreferrer">TICKETS <span>↗</span></a>
         <button className="textLink" onClick={()=>goto('LIVE')}>ALL LIVE DATES <span>↗</span></button>
       </div>
-    </section>
-
-    <section className="photoFeature">
-      <img src="/velvet-home.jpg" alt="Velvet live photography"/>
-      <div className="photoNote">VELVET / GLASGOW / 2026</div>
     </section>
 
     <section className="homeClose sectionGrid">
