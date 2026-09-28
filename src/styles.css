@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Libre+Baskerville:ital@0;1&display=swap');
-
 :root{
   --paper:#f2efe8;
   --ink:#171716;
@@ -9,7 +7,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:'DM Sans',Arial,sans-serif;font-size:15px;line-height:1.55}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.55}
 button,a{font:inherit}
 button{color:inherit}
 a{color:inherit}
@@ -33,7 +31,7 @@ main{overflow:hidden}
 .heroLogo{display:block;width:min(72vw,760px);height:auto;filter:invert(1);margin:0 0 28px;transform:rotate(4deg)}
 .heroCaption{margin:0;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
 .sectionGrid{display:grid;grid-template-columns:1fr 1fr;gap:7vw;padding:9vw 4.5vw;border-bottom:1px solid var(--line)}
-.sectionGrid h2{margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(33px,4.4vw,60px);line-height:1.06;font-weight:400;letter-spacing:-.04em}
+.sectionGrid h2{margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:clamp(33px,4.4vw,60px);line-height:1.06;font-weight:400;letter-spacing:-.04em}
 .introCopy{max-width:520px;justify-self:end;font-size:18px;line-height:1.5}
 .introCopy p{margin:0 0 28px}
 .textLink{display:inline-flex;align-items:center;gap:8px;border:0;border-bottom:1px solid var(--ink);padding:0 0 5px;background:none;font-size:10px;letter-spacing:.17em;text-transform:uppercase;text-decoration:none;cursor:pointer}
