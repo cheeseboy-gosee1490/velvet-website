@@ -1,26 +1,192 @@
-import React,{useEffect,useMemo,useState} from 'react';import{createRoot}from'react-dom/client';import'./styles.css';
-const pages={HOME:'101',MUSIC:'102',LIVE:'103',EPK:'104',CONTACT:'105'};
-const releases=[{title:'UNDER THE WATER',type:'Single',year:'2026',art:'UW',link:'https://velvetbandglasgow.bandcamp.com/album/under-the-water'}];
-const gigs=[['01 OCT',"Nice 'n' Sleazy's",'GLASGOW','https://www.eventbrite.ca/e/thomas-duxbury-eyes-of-home-velvet-glasgow-nice-n-sleazy-tickets-1994096886467']];
-function pathToPage(path){const p=path.replace(/\/$/,'')||'/';return p==='/'?'HOME':p==='/music'?'MUSIC':p==='/live'?'LIVE':p==='/epk'?'EPK':p==='/contact'?'CONTACT':'HOME'}
-function pageToPath(p){return p==='HOME'?'/' : `/${p.toLowerCase()}`}
-function App(){const[page,setPage]=useState(()=>pathToPage(window.location.pathname));const[time,setTime]=useState(new Date());useEffect(()=>{const onPop=()=>setPage(pathToPage(window.location.pathname));window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop)},[]);useEffect(()=>{const i=setInterval(()=>setTime(new Date()),1000);return()=>clearInterval(i)},[]);
-const goto=p=>{const path=pageToPath(p);if(window.location.pathname!==path)window.history.pushState({},'',path);setPage(p)};const pageNo=pages[page];const day=time.toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});const clock=time.toLocaleTimeString('en-GB',{hour12:false});
-return <div className="crt"><header><div className="topline"><span>100</span><span>VELVET 100</span><span>{day}</span><strong>{clock}</strong><span className="grow"/><span>GLASGOW</span><b>16°C</b><span>☀</span></div><div className="head"><div className="logo">VELVET</div><nav>{Object.entries(pages).map(([k,n])=><button key={k} className={page===k?'active':''} onClick={()=>goto(k)}><i>{n}</i> {k}</button>)}</nav></div></header>
-<main>
-{page==='HOME'&&<Home goto={goto}/>}
-{page==='MUSIC'&&<Music/>}
-{page==='LIVE'&&<Live/>}
-{page==='EPK'&&<EPK/>}
-{page==='CONTACT'&&<Contact/>}
-</main>
-<footer><span>VELVET</span><span>:::</span><span>UNDER THE WATER — OUT NOW</span><span>:::</span><span>GLASGOW</span><span>:::</span><span>MUSIC</span><span>:::</span><span>LIVE</span><span>:::</span><span>CONTACT</span><span>:::</span><span>VELVET</span></footer>
-</div>}
-function Bar({no,title,children}){return <section><div className="bar"><span>{no} {title}</span><span>1/1</span></div>{children}</section>}
-function Home({goto}){return <div className="single homePage"><Bar no="101" title="HOME"><div className="hero"><div className="halftone"><img className="heroPhoto" src="/velvet-home.jpg" alt="Velvet" /></div><div className="heroText"><small>VELVET</small><h1>UNDER THE WATER</h1><h2>OUT NOW</h2><p>NEW MUSIC FROM GLASGOW</p></div><div className="listen"><div className="cover"><img src="/artwork/under-the-water.jpg" alt="Under the Water artwork" /></div><div><strong>UNDER THE WATER</strong><small>Velvet · Single · 2026</small><div className="track">▶ <span></span></div></div><div className="services"><a href="https://open.spotify.com/artist/45dG1NWjvFA9SkPLICjGr8?si=TgCGkMzGTTGLDGyVBn7E4w&utm_source=copy-link" target="_blank">◉ SPOTIFY</a><a href="https://music.apple.com/gb/artist/velvet/657341158" target="_blank">♫ APPLE MUSIC</a><a href="https://velvetbandglasgow.bandcamp.com/album/under-the-water" target="_blank">bc BANDCAMP</a></div></div><div className="homeExtras"><div className="homeTicker">::: VELVET ::: GLASGOW ::: UNDER THE WATER ::: OUT NOW :::</div><div className="homeInfoGrid"><div className="nextLive"><div className="extraLabel">NEXT LIVE</div><div className="gigDate">01 OCT</div><strong>NICE 'N' SLEAZY'S</strong><small>GLASGOW</small><a href="https://www.eventbrite.ca/e/thomas-duxbury-eyes-of-home-velvet-glasgow-nice-n-sleazy-tickets-1994096886467" target="_blank">TICKETS →</a></div><div className="followBox"><div className="extraLabel">FOLLOW VELVET</div><div className="followLinks"><a href="https://www.instagram.com/velvetgla/" target="_blank">◎ INSTAGRAM</a><a href="https://www.tiktok.com/@velvetgla" target="_blank">♪ TIKTOK</a><a href="https://www.facebook.com/share/19bMxvLLCw/" target="_blank">● FACEBOOK</a><a href="https://x.com/velvetbandgla" target="_blank">𝕏 X</a></div></div></div></div></div><div className="socials"><a href="https://www.instagram.com/velvetgla/" target="_blank">◎ INSTAGRAM</a><a href="https://www.tiktok.com/@velvetgla" target="_blank">♪ TIKTOK</a><a href="https://www.facebook.com/share/19bMxvLLCw/" target="_blank">● FACEBOOK</a><a href="https://x.com/velvetbandgla" target="_blank">𝕏 X</a></div></Bar></div>}
-function MiniMusic(){return <div>{releases.map((r,i)=><div className="release mini" key={r.title}><div className={'cover c'+i}>{r.art}</div><div><strong>{r.title}</strong><small>{r.type} · {r.year}</small><p>{r.link?'BANDCAMP':'COMING SOON'}</p></div><b>0{i+1}</b></div>)}</div>}
-function Music(){return <div className="single musicPage"><Bar no="102" title="MUSIC"><div className="featuredRelease compact"><div className="releaseArtwork"><img src="/artwork/under-the-water.jpg" alt="Under the Water artwork" /></div><div className="releaseInfo"><div className="featuredTag">FEATURED RELEASE</div><h1>UNDER THE WATER</h1><div className="releaseMeta">SINGLE · 01 MAY 2026 · VELVET</div><p className="releaseDescription">An emotional, slow-rocker exploring insecurity, loss and desperation inside a raw and riff-laden pop song.</p><div className="releaseLinks"><a href="https://open.spotify.com/artist/45dG1NWjvFA9SkPLICjGr8" target="_blank">◉ SPOTIFY</a><a href="https://velvetbandglasgow.bandcamp.com/album/under-the-water" target="_blank">bc BANDCAMP</a><a href="https://music.apple.com/gb/artist/velvet/657341158" target="_blank">♫ APPLE MUSIC</a></div></div></div><div className="olderReleases"><h2 className="yellow">PREVIOUS RELEASES</h2><div className="releaseRows"><div className="olderRelease"><div className="olderArt blackBlue">BLACK<br/>AND<br/>BLUE</div><div><h3>BLACK AND BLUE</h3><p>SINGLE · 2020</p><a href="https://open.spotify.com/artist/45dG1NWjvFA9SkPLICjGr8" target="_blank">SPOTIFY →</a><a href="https://velvetbandglasgow.bandcamp.com/" target="_blank">BANDCAMP →</a><a href="https://music.apple.com/us/song/black-and-blue/1541067082" target="_blank">APPLE MUSIC →</a></div></div><div className="olderRelease"><div className="olderArt prefer">I PREFER<br/>YOU</div><div><h3>I PREFER YOU (IN MY HEAD)</h3><p>SINGLE · 2022</p><a href="https://open.spotify.com/artist/45dG1NWjvFA9SkPLICjGr8" target="_blank">SPOTIFY →</a><a href="https://velvetbandglasgow.bandcamp.com/" target="_blank">BANDCAMP →</a><a href="https://music.apple.com/us/album/i-prefer-you-in-my-head-single/1606984517" target="_blank">APPLE MUSIC →</a></div></div></div></div><div className="playerBlock"><h2 className="yellow">LISTEN ON SPOTIFY</h2><iframe title="Velvet on Spotify" src="https://open.spotify.com/embed/artist/45dG1NWjvFA9SkPLICjGr8?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div></Bar></div>}
-function Live(){return <div className="single"><Bar no="103" title="LIVE"><h2 className="yellow">UPCOMING GIGS</h2>{gigs.map(g=><div className="bigGig" key={g[0]}><b>{g[0]}</b><div><strong>{g[1]}</strong><small>{g[2]}</small></div><button>TICKETS</button></div>)}<hr/><h2 className="yellow">PAST SHOWS</h2><p>Audio / The Hug & Pint / Nice 'n' Sleazy's / King Tut's / Stag and Dagger / Endless Summer / Edinburgh Fringe Festival / + more</p></Bar></div>}
-function EPK(){return <div className="single"><Bar no="104" title="PRESS / EPK"><div className="two"><div><h2 className="yellow">ABOUT VELVET</h2><p>Velvet are a Glasgow five-piece. Their forthcoming single “Under the Water” is an emotional slow-rocker exploring insecurity, loss and desperation inside a raw, riff-laden pop song.</p><p>The band have played a sold-out DIY headline show at Audio in Glasgow and festivals including Stag and Dagger, Endless Summer and the Edinburgh Fringe Festival. Their self-produced compilation EP <i>The Constant</i> closed an earlier chapter for the group.</p></div><div><h2 className="yellow">DOWNLOADS / INFO</h2><p>■ Short bio<br/>■ Long bio<br/>■ Press photos<br/>■ Logo pack<br/>■ Music links<br/>■ Previous notable shows<br/>■ Technical rider / stage plot</p><p className="quote">“A sophisticated and unique sound” — Discovery Music</p></div></div></Bar></div>}
-function Contact(){return <div className="single"><Bar no="105" title="CONTACT"><div className="two"><div><h2 className="yellow">BOOKING</h2><p className="bigEmail"><a href="mailto:velvetbandglasgow@gmail.com">velvetbandglasgow@gmail.com</a></p><h2 className="yellow">GENERAL ENQUIRIES</h2><p className="bigEmail"><a href="mailto:velvetbandglasgow@gmail.com">velvetbandglasgow@gmail.com</a></p></div><div><h2 className="yellow">FOLLOW</h2><p><a href="https://www.instagram.com/velvetgla/" target="_blank">INSTAGRAM</a><br/><a href="https://www.tiktok.com/@velvetgla" target="_blank">TIKTOK</a><br/><a href="https://www.facebook.com/share/19bMxvLLCw/" target="_blank">FACEBOOK</a><br/><a href="https://x.com/velvetbandgla" target="_blank">X / TWITTER</a><br/><a href="https://open.spotify.com/artist/45dG1NWjvFA9SkPLICjGr8" target="_blank">SPOTIFY</a><br/><a href="https://velvetbandglasgow.bandcamp.com/album/under-the-water" target="_blank">BANDCAMP</a></p></div></div></Bar></div>}
+import React,{useEffect,useState} from 'react';
+import{createRoot}from'react-dom/client';
+import'./styles.css';
+
+const pages={HOME:'/',MUSIC:'/music',LIVE:'/live',EPK:'/epk',CONTACT:'/contact'};
+const gigs=[['01 OCT',"Nice 'n' Sleazy's",'Glasgow','https://www.eventbrite.ca/e/thomas-duxbury-eyes-of-home-velvet-glasgow-nice-n-sleazy-tickets-1994096886467']];
+
+function pathToPage(path){
+  const p=path.replace(/\/$/,'')||'/';
+  if(p==='/')return'HOME';
+  if(p==='/music')return'MUSIC';
+  if(p==='/live')return'LIVE';
+  if(p==='/epk')return'EPK';
+  if(p==='/contact')return'CONTACT';
+  return'HOME';
+}
+function App(){
+  const[page,setPage]=useState(()=>pathToPage(window.location.pathname));
+  useEffect(()=>{const onPop=()=>setPage(pathToPage(window.location.pathname));window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop)},[]);
+  const goto=p=>{const path=pages[p];if(window.location.pathname!==path)window.history.pushState({},'',path);setPage(p);window.scrollTo({top:0,behavior:'smooth'})};
+  return <div className="site">
+    <header className="siteHeader">
+      <button className="wordmark" onClick={()=>goto('HOME')} aria-label="Velvet home">VELVET</button>
+      <nav className="siteNav" aria-label="Main navigation">
+        {Object.keys(pages).map(k=><button key={k} className={page===k?'active':''} onClick={()=>goto(k)}>{k==='EPK'?'PRESS':k}</button>)}
+      </nav>
+    </header>
+
+    <main>
+      {page==='HOME'&&<Home goto={goto}/>}
+      {page==='MUSIC'&&<Music/>}
+      {page==='LIVE'&&<Live/>}
+      {page==='EPK'&&<EPK/>}
+      {page==='CONTACT'&&<Contact/>}
+    </main>
+
+    <footer className="siteFooter">
+      <span>VELVET — GLASGOW</span>
+      <span>© 2026</span>
+      <div className="footerLinks">
+        <a href="https://www.instagram.com/velvetgla/" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://velvetbandglasgow.bandcamp.com/" target="_blank" rel="noreferrer">Bandcamp</a>
+        <a href="https://open.spotify.com/artist/45dG1NWjvFA9SkPLICjGr8" target="_blank" rel="noreferrer">Spotify</a>
+      </div>
+    </footer>
+  </div>;
+}
+
+function Home({goto}){
+  return <div className="home">
+    <section className="homeHero">
+      <img src="/velvet-home.jpg" alt="Velvet" className="homeHeroImage"/>
+      <div className="heroOverlay">
+        <p className="eyebrow">GLASGOW · FIVE-PIECE</p>
+        <h1>VELVET</h1>
+        <p className="heroCaption">UNDER THE WATER — OUT NOW</p>
+      </div>
+    </section>
+
+    <section className="homeIntro sectionGrid">
+      <div>
+        <p className="eyebrow">LATEST</p>
+        <h2>Under the Water</h2>
+      </div>
+      <div className="introCopy">
+        <p>An emotional slow-rocker about insecurity, loss and desperation, built around raw guitars and a direct, melodic pull.</p>
+        <button className="textLink" onClick={()=>goto('MUSIC')}>LISTEN TO THE RELEASE <span>↗</span></button>
+      </div>
+    </section>
+
+    <section className="featureSplit">
+      <div className="featureArt">
+        <img src="/artwork/under-the-water.jpg" alt="Under the Water artwork"/>
+      </div>
+      <div className="featureCopy">
+        <p className="eyebrow">01 MAY 2026 · SINGLE</p>
+        <h2>Under<br/>the Water</h2>
+        <div className="rule"/>
+        <div className="streamLinks">
+          <a href="https://open.spotify.com/artist/45dG1NWjvFA9SkPLICjGr8" target="_blank" rel="noreferrer">Spotify ↗</a>
+          <a href="https://music.apple.com/gb/artist/velvet/657341158" target="_blank" rel="noreferrer">Apple Music ↗</a>
+          <a href="https://velvetbandglasgow.bandcamp.com/album/under-the-water" target="_blank" rel="noreferrer">Bandcamp ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section className="homeLive sectionGrid">
+      <div>
+        <p className="eyebrow">NEXT LIVE</p>
+        <div className="gigRow">
+          <div className="gigDate">01<br/><span>OCT</span></div>
+          <div>
+            <h3>Nice 'n' Sleazy's</h3>
+            <p>Glasgow</p>
+          </div>
+        </div>
+      </div>
+      <div className="liveAside">
+        <p>Velvet live in Glasgow.</p>
+        <a className="textLink" href={gigs[0][3]} target="_blank" rel="noreferrer">TICKETS <span>↗</span></a>
+        <button className="textLink" onClick={()=>goto('LIVE')}>ALL LIVE DATES <span>↗</span></button>
+      </div>
+    </section>
+
+    <section className="photoFeature">
+      <img src="/velvet-home.jpg" alt="Velvet live photography"/>
+      <div className="photoNote">VELVET / GLASGOW / 2026</div>
+    </section>
+
+    <section className="homeClose sectionGrid">
+      <div>
+        <p className="eyebrow">ABOUT</p>
+        <h2>A Glasgow band making noisy, melodic songs.</h2>
+      </div>
+      <div className="introCopy">
+        <p>Velvet have played sold-out headline shows around Glasgow, alongside festival appearances and support slots across Scotland.</p>
+        <button className="textLink" onClick={()=>goto('EPK')}>READ MORE ABOUT VELVET <span>↗</span></button>
+      </div>
+    </section>
+  </div>
+}
+
+function Music(){
+  return <PageShell eyebrow="MUSIC" title="Releases">
+    <section className="releaseFeature">
+      <img src="/artwork/under-the-water.jpg" alt="Under the Water artwork"/>
+      <div>
+        <p className="eyebrow">01 MAY 2026 · SINGLE</p>
+        <h2>Under the Water</h2>
+        <p className="bodyCopy">An emotional, slow-rocker exploring insecurity, loss and desperation inside a raw and riff-laden pop song.</p>
+        <div className="streamLinks stacked">
+          <a href="https://open.spotify.com/artist/45dG1NWjvFA9SkPLICjGr8" target="_blank" rel="noreferrer">Spotify ↗</a>
+          <a href="https://music.apple.com/gb/artist/velvet/657341158" target="_blank" rel="noreferrer">Apple Music ↗</a>
+          <a href="https://velvetbandglasgow.bandcamp.com/album/under-the-water" target="_blank" rel="noreferrer">Bandcamp ↗</a>
+        </div>
+      </div>
+    </section>
+  </PageShell>
+}
+function Live(){
+  return <PageShell eyebrow="LIVE" title="Shows">
+    <section className="liveList">
+      {gigs.map(g=><div className="largeGig" key={g[0]}>
+        <div className="gigDate">{g[0]}</div>
+        <div><h2>{g[1]}</h2><p>{g[2]}</p></div>
+        <a className="textLink" href={g[3]} target="_blank" rel="noreferrer">TICKETS ↗</a>
+      </div>)}
+    </section>
+    <section className="archive">
+      <p className="eyebrow">PAST SHOWS</p>
+      <p className="bodyCopy">Audio · The Hug & Pint · Nice 'n' Sleazy's · King Tut's · Stag and Dagger · Endless Summer · Edinburgh Fringe Festival · + more</p>
+    </section>
+  </PageShell>
+}
+function EPK(){
+  return <PageShell eyebrow="PRESS / ABOUT" title="Velvet">
+    <section className="copyGrid">
+      <div>
+        <p className="bodyCopy">Velvet are a Glasgow five-piece. Their music sits somewhere between dreamy indie, guitar-led alternative and restless pop — always melodic, sometimes loud.</p>
+        <p className="bodyCopy">The band have played sold-out headline shows at Audio and appeared at Stag and Dagger, Endless Summer and the Edinburgh Fringe Festival.</p>
+      </div>
+      <div>
+        <p className="eyebrow">PRESS</p>
+        <p className="quote">“A sophisticated and unique sound.”</p>
+        <p className="source">— Discovery Music</p>
+      </div>
+    </section>
+  </PageShell>
+}
+function Contact(){
+  return <PageShell eyebrow="CONTACT" title="Get in touch">
+    <section className="copyGrid">
+      <div><p className="eyebrow">BOOKING / GENERAL</p><a className="bigContact" href="mailto:velvetbandglasgow@gmail.com">velvetbandglasgow@gmail.com</a></div>
+      <div><p className="eyebrow">ONLINE</p><div className="contactLinks">
+        <a href="https://www.instagram.com/velvetgla/" target="_blank" rel="noreferrer">Instagram ↗</a>
+        <a href="https://www.tiktok.com/@velvetgla" target="_blank" rel="noreferrer">TikTok ↗</a>
+        <a href="https://www.facebook.com/share/19bMxvLLCw/" target="_blank" rel="noreferrer">Facebook ↗</a>
+        <a href="https://x.com/velvetbandgla" target="_blank" rel="noreferrer">X ↗</a>
+      </div></div>
+    </section>
+  </PageShell>
+}
+function PageShell({eyebrow,title,children}){
+  return <div className="page">
+    <section className="pageIntro">
+      <p className="eyebrow">{eyebrow}</p>
+      <h1>{title}</h1>
+    </section>
+    {children}
+  </div>
+}
 createRoot(document.getElementById('root')).render(<App/>);
