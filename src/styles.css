@@ -59,3 +59,5 @@ footer{padding:6px 10px;border-top:3px solid #fff;background:#001aff;color:#fff;
 @media(min-width:901px){
   .heroText,.homeExtras,.listen{border:3px solid #fff;box-sizing:border-box}
 }
+
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
